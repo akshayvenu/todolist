@@ -1,6 +1,5 @@
 "use client"
-import React, { cloneElement, useState } from 'react'
-import { render } from 'react-dom'
+import React, {  useState } from 'react'
 
 const page = () => {
 
@@ -12,18 +11,35 @@ const page = () => {
     setmainTask([...mainTask , {task,des}])
     settask("")
     setdes("")
-  } 
+  }
 
+  const deleteHandler = (index) => {
+    let copyarry = [...mainTask]
+    copyarry.splice(index,1)
+    setmainTask(copyarry)
+  
+  }
 
+  let renderTask  = <h2> No Task Available </h2>;
 
-  let renderTask ;
+if (mainTask.length>0){
+  renderTask =  mainTask.map((t,index)=>{
+    return <div key={index} className='p-3 flex justify-between text-xl font-semibold '>
 
-  renderTask =  mainTask.map((t,i)=>{
-    return <div className='p-3 flex justify-between'>
-      <h5>{t.task}</h5>
-      <h5>{t.des}</h5>
+      <h5 className='w-2/3'>{index + 1}</h5>
+      <h5 className='w-2/3'>{t.task}</h5>
+      <h5 className='w-2/3'>{t.des}</h5>
+      <button onClick={()=>{  
+        deleteHandler(index)
+      }} className='bg-red-700 px-5 py-2 text-white font-semibold rounded'>Delete</button>
+
     </div>
+
+
   })
+
+}
+  
 
   return (
     <>
@@ -47,14 +63,14 @@ const page = () => {
       <button className='bg-black text-white px-4 py-2 text-2xl rounded font-bold m-5'>Add Task</button>
     </form>
 
-    <hr />
+    {/* <hr /> */}
     <div className='p-8 bg-slate-200'>
       {renderTask}
     </div>
 
     
     
-    
+
     </>
     
   )
